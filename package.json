@@ -1,0 +1,17 @@
+{
+  "name": "skynet",
+  "version": "1.0.0",
+  "description": "saving us from ourselves",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "skynet"
+  ],
+  "author": "fleish <cfleisher3@gatech.edu>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
