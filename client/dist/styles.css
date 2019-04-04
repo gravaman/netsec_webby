@@ -5,7 +5,12 @@
 
 #security-chart {
     background-color: transparent;
-    height: 300px;
+}
+
+#security-chart .world {
+    fill: #A9A9A9;
+    stroke: #D3D3D3;
+    stroke-width: 0.5px;
 }
 
 #search-bar {

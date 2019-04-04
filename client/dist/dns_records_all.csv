@@ -1,0 +1,4 @@
+ip,domain,malicious
+127.0.0.1,local,false
+98.1.2.2,badguy.com,true
+97.2.4.2,notbadguy.edu,false
