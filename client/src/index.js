@@ -1,5 +1,5 @@
 // client js
-import './securityVisual'
+import * as secVis from './securityVisual'
 
 $("#period-buttons").find(".btn").click(function() {
     $("#period-buttons").find(".btn")
@@ -8,3 +8,10 @@ $("#period-buttons").find(".btn").click(function() {
     $(this).removeClass("btn-secondary")
             .addClass("btn-success active")
 })
+
+$("#malicious-switch").click(() => secVis.updateData(switchState()))
+$('#safe-switch').click(() => secVis.updateData(switchState()))
+
+function switchState() {
+    return [$('#safe-switch').is(':checked'), $('#malicious-switch').is(':checked')]
+}
