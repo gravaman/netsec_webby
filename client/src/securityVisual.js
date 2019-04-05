@@ -28,6 +28,34 @@ function buildMap() {
                     .attr("class", "world")
                     .attr("d", worldpath)
 
+        // must be longitude / latitude
+        let london = projection([-0.12574, 51.50853])
+        let nyc = projection([-73.9808, 40.7648])
+
+        svg.selectAll("circle")
+            .data(dnsAll)
+            .enter().append("circle")
+                .attr("class", "ipaddr")
+                .attr("r", 2)
+                .attr("cx", d => projection([d.longitude, d.latitude])[0])
+                .attr("cy", d => projection([d.longitude, d.latitude])[1])
+                .attr("stroke", d => d.malicious ? "#FF6347" : "#90EE90")
+                .attr("stroke-width", d => d.malicious ? 5 : 2)
+
+        // svg.append("circle")
+        //     .attr("class", "ipaddr")
+        //     .attr("r", 2)
+        //     .attr("cx", london[0])
+        //     .attr("cy", london[1])
+        //
+        // svg.append("circle")
+        //     .attr("class", "ipaddr")
+        //     .attr("r", 2)
+        //     .attr("cx", nyc[0])
+        //     .attr("cy", nyc[1])
+
+        console.log("projection...")
+        console.log(projection, projection([51.5, 0.13]), worldpath)
     })
 }
 
@@ -47,7 +75,9 @@ function pullData(){
             return {
                 ip: record.ip,
                 domain: record.domain,
-                malicious: (record.malicious == 'true')
+                malicious: (record.malicious == 'true'),
+                longitude: parseFloat(record.longitude),
+                latitude: parseFloat(record.latitude)
             }
         })
     }
