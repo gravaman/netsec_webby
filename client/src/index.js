@@ -1,3 +1,4 @@
+// client js
 import './securityVisual'
 
 $("#period-buttons").find(".btn").click(function() {
@@ -7,6 +8,3 @@ $("#period-buttons").find(".btn").click(function() {
     $(this).removeClass("btn-secondary")
             .addClass("btn-success active")
 })
-
-// client js
-console.log("skynet online")
