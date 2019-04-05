@@ -7,7 +7,7 @@ function buildMap() {
                     .append("svg")
                         .attr("width", "100%")
                         .attr("height", "100%")
-                        .attr("viewBox", `0 0 900 500`)
+                        .attr("viewBox", `0 0 1000 700`)
                         .attr("preserveAspectRatio", "xMinYMin meet")
 
     pullData().then(function(data) {
@@ -18,7 +18,7 @@ function buildMap() {
 
         // plot data
         let projection = d3.geoMercator()
-                            .fitSize([parseFloat(svg.style("width")), parseFloat(svg.style("height"))], worldMap)
+                            .fitSize([parseFloat(svg.style("width")) * 0.9, parseFloat(svg.style("height")) * 0.9], worldMap)
         let worldpath = d3.geoPath(projection)
 
         svg.selectAll("path")
