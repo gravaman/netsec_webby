@@ -30,3 +30,15 @@
 #logo-caption {
     padding-left: 50px;
 }
+
+.custom-switch-safe .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #90EE90;
+    border-color: #90EE90;
+    opacity: 0.75;
+}
+
+.custom-switch-malicious .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #FF6347;
+    border-color: #FF6347;
+    opacity: 0.75;
+}
