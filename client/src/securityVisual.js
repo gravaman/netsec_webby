@@ -16,6 +16,13 @@ function buildMap() {
         console.log("dnsAll:", dnsAll)
         console.log("dnsLocal:", dnsLocal)
 
+        // prep data
+        let scales = {
+            circleR: d3.scaleLinear()
+                    .domain([d3.min(dnsAll, d => d.frequency), d3.max(dnsAll, d => d.frequency)])
+                    .range([3, 7])
+        }
+
         // plot data
         let projection = d3.geoMercator()
                             .fitSize([parseFloat(svg.style("width")) * 0.9, parseFloat(svg.style("height")) * 0.9], worldMap)
@@ -31,11 +38,10 @@ function buildMap() {
             .data(dnsAll)
             .enter().append("circle")
                 .attr("class", "ipaddr")
-                .attr("r", 2)
+                .attr("r", d => scales.circleR(d.frequency))
                 .attr("cx", d => projection([d.longitude, d.latitude])[0])
                 .attr("cy", d => projection([d.longitude, d.latitude])[1])
-                .attr("stroke", d => d.malicious ? "#FF6347" : "#90EE90")
-                .attr("stroke-width", d => d.malicious ? 5 : 2)
+                .attr("fill", d => d.malicious ? "#FF6347" : "#90EE90")
     })
 }
 
@@ -57,7 +63,8 @@ function pullData(){
                 domain: record.domain,
                 malicious: (record.malicious == 'true'),
                 longitude: parseFloat(record.longitude),
-                latitude: parseFloat(record.latitude)
+                latitude: parseFloat(record.latitude),
+                frequency: parseInt(record.frequency)
             }
         })
     }

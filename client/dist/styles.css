@@ -15,8 +15,8 @@
 }
 
 #security-chart .ipaddr {
-    fill: transparent;
-    stroke-opacity: 0.6;
+    stroke: transparent;
+    opacity: 0.6
 }
 
 #search-bar {
