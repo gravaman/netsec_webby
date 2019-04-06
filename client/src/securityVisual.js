@@ -54,30 +54,18 @@ function displayDnsRecord(d) {
 }
 
 function pullData(){
-    let paths = {
-        worldMap: 'world-countries.json',
-        dnsRecords: 'dns_records_all.csv'
-    }
-
-    let puller = {
-        map: path => d3.json(path),
-        dns: path => d3.csv(path, rowToRec)
-    }
-
-    return Promise.all([puller.map(paths.worldMap), puller.dns(paths.dnsRecords)])
+    return Promise.all([d3.json('world-countries.json'), pullDns()])
 }
 
-function rowToRec(row) {
-    return {
-        id: parseInt(row.id),
-        ip: row.ip,
-        domain: row.domain,
-        malicious: (row.malicious == 'true'),
-        longitude: parseFloat(row.longitude),
-        latitude: parseFloat(row.latitude),
-        frequency: parseInt(row.frequency),
-        last_req: new Date(Date.parse(row.last_req))
-    }
+function pullDns() {
+    return fetch('/requests.json')
+                .then(res => res.json())
+                .then(data => {
+                    for (let i = 0; i < data.length; i++) {
+                        data[i].last_req = new Date(Date.parse(data[i].last_req))
+                    }
+                    return data
+                })
 }
 
 function updateScales(data) {
@@ -111,7 +99,7 @@ export function updateData(toggleState) {
     let safeState, malState
     [safeState, malState] = toggleState
 
-    d3.csv("dns_records_all.csv", rowToRec).then(function(dnsRecords) {
+    pullDns().then(function(dnsRecords) {
         // prep data
         updateScales(dnsRecords)
 
@@ -132,8 +120,7 @@ export function updateData(toggleState) {
 }
 
 export function lastRequest() {
-    return d3.csv('dns_records_all.csv', rowToRec)
-                .then(recs => recs.sort((a, b) => a.last_req - b.last_req)[0])
+    return pullDns().then(recs => recs.sort((a, b) => a.last_req - b.last_req)[0])
 }
 
 // HMR
