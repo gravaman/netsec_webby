@@ -1,7 +1,7 @@
-ip,domain,malicious,longitude,latitude,frequency
-127.0.0.1,local,false,-0.12574,51.50853,5
-98.1.2.2,badguy.com,true,-73.9808,40.7648,2
-97.2.4.2,notbadguy.edu,false,-84.38798,33.749,10
-165.43.2.1,ruskis.ru,true,37.61556,55.75222,7
-132.34.21.11,shanghai.sz,true,121.45806,31.22222,4
-654.32.22.12,mumbai.in,false,72.88261,19.07283,5
+id,ip,domain,malicious,longitude,latitude,frequency,last_req
+1,127.0.0.1,local,false,-0.12574,51.50853,5,2019-04-06
+2,98.1.2.2,badguy.com,true,-73.9808,40.7648,2,2019-04-05
+3,97.2.4.2,notbadguy.edu,false,-84.38798,33.749,10,2019-04-01
+4,165.43.2.1,ruskis.ru,true,37.61556,55.75222,7,2019-03-06
+5,132.34.21.11,shanghai.sz,true,121.45806,31.22222,4,2019-02-21
+6,654.32.22.12,mumbai.in,false,72.88261,19.07283,5,2018-12-25

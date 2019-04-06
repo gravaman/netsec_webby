@@ -1,5 +1,9 @@
 // client js
+import 'bootstrap'
+import $ from 'jquery'
 import * as secVis from './securityVisual'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './styles.css'
 
 $("#period-buttons").find(".btn").click(function() {
     $("#period-buttons").find(".btn")

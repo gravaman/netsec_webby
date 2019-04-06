@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title><%= htmlWebpackPlugin.options.title %></title>
+    </head>
+    <body class="bg-dark">
+        <div class="jumbotron jumbotron-fluid text-dark" id="heading">
+            <div class="container">
+                <div class="row">
+                    <div class="col-3">
+                        <h2><|--_--|></h2>
+                    </div>
+                    <div class="col-9">
+                        <h1>skynet defense</h1>
+                        <p class="lead">humanity's non-creepy cyber guardian</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-8">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid text-light bg-dark">
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-8">
+                    <div id="security-chart"></div>
+                </div>
+                <div class="col-2">
+                    <div class="custom-control custom-switch custom-switch-safe">
+                        <input type="checkbox" class="custom-control-input" id="safe-switch" checked>
+                        <label class="custom-control-label" for="safe-switch">Safe Domains</label>
+                    </div>
+                    <div class="custom-control custom-switch custom-switch-malicious">
+                        <input type="checkbox" class="custom-control-input" id="malicious-switch" checked>
+                        <label class="custom-control-label" for="malicious-switch">Malicious Domains</label>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </div>
+    </body>
+</html>
