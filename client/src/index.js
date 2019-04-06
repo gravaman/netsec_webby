@@ -5,14 +5,10 @@ import * as secVis from './securityVisual'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './styles.css'
 
-$("#period-buttons").find(".btn").click(function() {
-    $("#period-buttons").find(".btn")
-        .removeClass("btn-success active")
-        .addClass("btn-secondary")
-    $(this).removeClass("btn-secondary")
-            .addClass("btn-success active")
-})
+// update alert for last request domain
+secVis.lastRequest().then(req => $('#security-alert-domain').text(`(${ req.domain })`))
 
+// add switch handlers
 $("#malicious-switch").click(() => secVis.updateData(switchState()))
 $('#safe-switch').click(() => secVis.updateData(switchState()))
 

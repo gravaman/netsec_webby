@@ -131,6 +131,11 @@ export function updateData(toggleState) {
     })
 }
 
+export function lastRequest() {
+    return d3.csv('dns_records_all.csv', rowToRec)
+                .then(recs => recs.sort((a, b) => a.last_req - b.last_req)[0])
+}
+
 // HMR
 if (module.hot) {
     module.hot.accept()
