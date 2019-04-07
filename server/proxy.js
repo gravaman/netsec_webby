@@ -1,7 +1,9 @@
+const dns = require('dns')
 const express = require("express")
 const proxy = require('http-proxy')
+const db = require('./db')
 
-// [TBU: include classification engine; enable https requests]
+// [TBU: include classification engine; enable https requests;]
 const psPort = 3000
 const wsPort = 3001
 const app = express()
@@ -10,8 +12,37 @@ const ps = proxy.createProxyServer()
 app.all('/*', (req, res) => {
     // classify request
     if (isMalicious(req.headers.host)) {
-        // malicious requests redirected web server
-        res.redirect(`http://localhost:${ wsPort }`)
+        let dnsRecord = {
+            domain: req.headers.host,
+            ip: null,
+            malicious: true,
+            last_req: new Date().toUTCString(),
+            longitude: 17.321,
+            latitude: 12.13,
+            frequency: 1
+        }
+
+        getIp(req.headers.host)
+            .then(addrs => {
+                if (addrs.length > 0) {
+                    dnsRecord.ip = addrs[0]
+                }
+                // get existing db record if exists
+                return db.any('SELECT * FROM requests WHERE domain = $1', req.headers.host)
+            })
+            .then(result => {
+                if (result.length == 0) {
+                    return db.none('INSERT INTO requests (domain, ip, malicious, last_req, longitude, latitude, frequency) \
+                        VALUES (${domain}, ${ip}, ${malicious}, ${last_req}, ${longitude}, ${latitude}, ${frequency})', dnsRecord)
+                } else {
+                    return db.none('UPDATE requests SET frequency = $1 WHERE id = $2', [result[0].frequency + 1, result[0].id])
+                }
+            })
+            .then(() => res.redirect(`http://localhost:${ wsPort }`))
+            .catch(e => {
+                console.error('error:', e)
+                res.redirect(`http://localhost:${ wsPort }`)
+            })
     } else {
         // safe requests proxied
         ps.web(req, res, {
@@ -26,4 +57,10 @@ app.listen(psPort, () => console.log(`proxy server running at http://localhost:$
 function isMalicious(host) {
     // [TBU by classification engine]
     return host == 'ardcontracting.com'
+}
+
+function getIp(host) {
+    return new Promise((resolve, reject) => {
+        dns.resolve4(host, (err, addrs) => err ? reject(err) : resolve(addrs))
+    })
 }
