@@ -22,6 +22,7 @@ pullData().then(function(data) {
     [worldMap, dnsRecords] = data
 
     // prep data
+    dnsRecords = dnsRecords.filter(d => d.latitude != null && d.longitude != null)
     updateScales(dnsRecords)
 
     // plot data
