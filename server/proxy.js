@@ -1,6 +1,7 @@
 const dns = require('dns')
 const express = require("express")
 const proxy = require('http-proxy')
+const geoip = require('geoip-lite')
 const db = require('./db')
 
 // [TBU: include classification engine; enable https requests;]
@@ -17,8 +18,8 @@ app.all('/*', (req, res) => {
             ip: null,
             malicious: true,
             last_req: new Date().toUTCString(),
-            longitude: 17.321,
-            latitude: 12.13,
+            longitude: null,
+            latitude: null,
             frequency: 1
         }
 
@@ -32,6 +33,12 @@ app.all('/*', (req, res) => {
             })
             .then(result => {
                 if (result.length == 0) {
+                    // get latitude / longitude
+                    let geo = geoip.lookup(dnsRecord.ip)
+                    if (geo && geo.ll) {
+                        dnsRecord.latitude = geo.ll[0]
+                        dnsRecord.longitude = geo.ll[1]
+                    }
                     return db.none('INSERT INTO requests (domain, ip, malicious, last_req, longitude, latitude, frequency) \
                         VALUES (${domain}, ${ip}, ${malicious}, ${last_req}, ${longitude}, ${latitude}, ${frequency})', dnsRecord)
                 } else {
