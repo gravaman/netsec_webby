@@ -1,5 +1,4 @@
 const http = require("http")
-const https = require("https")
 const dns = require('dns')
 const url = require("url")
 const net = require('net')
