@@ -1,12 +1,18 @@
+const fs = require('fs')
 const path = require('path')
+const https = require('https')
 const express = require('express')
 const webpack = require('webpack')
 const webpackConfig = require('../webpack.config')
 const db = require('./db')
 
-// express
+// create ws
+const wsPort = 3001
 const app = express()
-const port = 3000
+const creds = {
+    key: fs.readFileSync('./skynet.com.key', 'utf8'),
+    cert: fs.readFileSync('./skynet.com.crt', 'utf8')
+}
 
 // HMR
 const compiler = webpack(webpackConfig)
@@ -17,8 +23,9 @@ app.use(require('webpack-hot-middleware')(compiler, {
     log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000
 }))
 
-// server
+// ws setup and routing
 app.use(express.static(path.join(path.normalize(__dirname + '/..'), 'client', 'dist')))
+
 app.get('/requests.json', (req, res) => {
     db.any('SELECT * from requests')
         .then(data => {
@@ -31,4 +38,6 @@ app.get('/requests.json', (req, res) => {
         })
 })
 app.get('/', (req, res) => res.send('skynet reporting for duty'))
-app.listen(port, () => console.log(`skynet running at http://localhost:${ port }`))
+
+https.createServer(creds, app)
+        .listen(wsPort, () => console.log(`web server running at https://localhost:${ wsPort }`))

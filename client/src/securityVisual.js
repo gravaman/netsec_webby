@@ -22,6 +22,7 @@ pullData().then(function(data) {
     [worldMap, dnsRecords] = data
 
     // prep data
+    dnsRecords = dnsRecords.filter(d => d.latitude != null && d.longitude != null)
     updateScales(dnsRecords)
 
     // plot data
@@ -120,7 +121,7 @@ export function updateData(toggleState) {
 }
 
 export function lastRequest() {
-    return pullDns().then(recs => recs.sort((a, b) => a.last_req - b.last_req)[0])
+    return pullDns().then(recs => recs.sort((a, b) => b.last_req - a.last_req)[0])
 }
 
 // HMR
